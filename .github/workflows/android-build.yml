@@ -2,8 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -14,22 +13,22 @@ jobs:
       - name: Descargar código
         uses: actions/checkout@v4
 
-      - name: Instalar Java
+      - name: Instalar Java 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
 
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
         working-directory: update
 
-      - name: Compilar APK
+      - name: Compilar APK debug
         run: ./gradlew assembleDebug
         working-directory: update
 
       - name: Subir APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: app-debug-apk
           path: update/app/build/outputs/apk/debug/app-debug.apk
